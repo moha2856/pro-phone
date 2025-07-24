@@ -2,59 +2,179 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>هواتف - Pro Phone</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9fbfd;
+      color: #222;
+      margin: 0;
+      padding: 0 20px;
+      direction: rtl;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+    header img.logo {
+      width: 60px;
+      vertical-align: middle;
+      margin-left: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 15px 0;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      background-color: #007bff;
+      color: white;
+      border-color: #0056b3;
+    }
+    h1, h2 {
+      margin: 0 0 15px 0;
+      font-weight: 700;
+    }
+    #products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .product {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 260px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .product:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .product img {
+      width: 100%;
+      border-radius: 12px;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+    .product h3 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+      color: #007bff;
+    }
+    .product p {
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #555;
+    }
+    button.add-to-cart {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button.add-to-cart:hover {
+      background-color: #1e7e34;
+    }
+    a.whatsapp-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #25d366;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.4);
+      transition: background-color 0.3s ease;
+    }
+    a.whatsapp-btn:hover {
+      background-color: #128c5e;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 12px;
+        justify-content: center;
+      }
+      .product {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <img src="images/c6694f03220dd3acf7bf32586d21d102.png" alt="لوغو برو فون" class="logo" />
-      <h1>📱 هواتف - Pro Phone</h1>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="headphones.html">سماعات</a></li>
-        <li><a href="library.html">المكتبة الدراسية</a></li>
-        <li><a href="accessories.html">الاكسسوارات</a></li>
-        <li><a href="chargers.html">الشاحنات</a></li>
-        <li><a href="cameras.html">كاميرات</a></li>
-        <li><a href="index.html#contact">تواصل معنا</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section id="products">
-    <h2>📱 هواتف متوفرة</h2>
-    
-    <div class="product">
-      <img src="images/97ea837ff98b86f07efde014a54224dd.jpg" alt="هاتف حديث" />
-      <h3>iphone 16 pro max</h3>
-      <p>السعر: 1,600,000 دينار</p>
-      <button onclick="addToCart('iphone 16 pro max', 1600000)">🛒 أضف إلى السلة</button>
-      <a href="https://wa.me/9647723598408" target="_blank" class="whatsapp-btn">اطلب عبر واتساب</a>
-    </div>
-    
-    <!-- تقدر تضيف منتجات أكثر بنفس الطريقة -->
-  </section>
+<header>
+  <img src="images/c6694f03220dd3acf7bf32586d21d102.png" alt="لوغو Pro Phone" class="logo" />
+  <h1>📱 هواتف - Pro Phone</h1>
+</header>
 
-  <footer>
-    <p>جميع الحقوق محفوظة &copy; Pro Phone 2025</p>
-  </footer>
+<nav>
+  <ul>
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="headphones.html">سماعات</a></li>
+    <li><a href="library.html">المكتبة الدراسية</a></li>
+    <li><a href="accessories.html">الاكسسوارات</a></li>
+    <li><a href="chargers.html">الشاحنات</a></li>
+    <li><a href="cameras.html">كاميرات</a></li>
+    <li><a href="index.html#contact">تواصل معنا</a></li>
+  </ul>
+</nav>
 
-  <script>
-    function addToCart(name, price) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      
-      // نضيف المنتج للسلة
-      cart.push({ name, price, quantity: 1 });
-      
-      // نحفظ في localStorage
-      localStorage.setItem('cart', JSON.stringify(cart));
-      
-      alert('تمت إضافة "' + name + '" إلى سلة التسوق');
-    }
-  </script>
+<section id="products">
+  <h2>📱 هواتف متوفرة</h2>
+
+  <div class="product">
+    <img src="images/iphone16pro.jpg" alt="iPhone 16 Pro Max" />
+    <h3>iPhone 16 Pro Max</h3>
+    <p>السعر: 1,600,000 دينار</p>
+    <button class="add-to-cart" onclick="addToCart('iPhone 16 Pro Max', 1600000)">🛒 أضف إلى السلة</button>
+    <a href="https://wa.me/9647723598408" target="_blank" class="whatsapp-btn">اطلب عبر واتساب</a>
+  </div>
+
+  <!-- تقدر تضيف منتجات أكثر بنفس الطريقة -->
+
+</section>
+
+<script>
+  function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name, price, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('تمت إضافة "' + name + '" إلى سلة التسوق');
+  }
+</script>
+
 </body>
 </html>

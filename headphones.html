@@ -31,6 +31,7 @@
       <img src="images/headphone1.jpg" alt="سماعة لاسلكية" />
       <h3>سماعة لاسلكية</h3>
       <p>السعر: 40,000 دينار</p>
+      <button onclick="addToCart('سماعة لاسلكية', 40000)">🛒 أضف إلى السلة</button>
       <a href="https://wa.me/9647723598408" target="_blank" class="whatsapp-btn">اطلب عبر واتساب</a>
     </div>
 
@@ -38,6 +39,7 @@
       <img src="images/headphone2.jpg" alt="سماعة رأس" />
       <h3>سماعة رأس</h3>
       <p>السعر: 35,000 دينار</p>
+      <button onclick="addToCart('سماعة رأس', 35000)">🛒 أضف إلى السلة</button>
       <a href="https://wa.me/9647723598408" target="_blank" class="whatsapp-btn">اطلب عبر واتساب</a>
     </div>
 
@@ -46,5 +48,14 @@
   <footer>
     <p>جميع الحقوق محفوظة &copy; Pro Phone 2025</p>
   </footer>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price, quantity: 1 });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('تمت إضافة "' + name + '" إلى سلة التسوق');
+    }
+  </script>
 </body>
 </html>
