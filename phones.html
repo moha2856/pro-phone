@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>هواتف - Pro Phone</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -26,17 +27,34 @@
 
   <section id="products">
     <h2>📱 هواتف متوفرة</h2>
+    
     <div class="product">
       <img src="images/97ea837ff98b86f07efde014a54224dd.jpg" alt="هاتف حديث" />
       <h3>iphone 16 pro max</h3>
-      <p>السعر: 1.600.000 دينار</p>
+      <p>السعر: 1,600,000 دينار</p>
+      <button onclick="addToCart('iphone 16 pro max', 1600000)">🛒 أضف إلى السلة</button>
       <a href="https://wa.me/9647723598408" target="_blank" class="whatsapp-btn">اطلب عبر واتساب</a>
     </div>
-    <!-- تقدر تضيف منتجات أكثر بنفس الكود هذا -->
+    
+    <!-- تقدر تضيف منتجات أكثر بنفس الطريقة -->
   </section>
 
   <footer>
     <p>جميع الحقوق محفوظة &copy; Pro Phone 2025</p>
   </footer>
+
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      // نضيف المنتج للسلة
+      cart.push({ name, price, quantity: 1 });
+      
+      // نحفظ في localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      alert('تمت إضافة "' + name + '" إلى سلة التسوق');
+    }
+  </script>
 </body>
 </html>
