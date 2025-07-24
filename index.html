@@ -5,6 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pro Phone - الحلة البكرلي تقاطع دانة</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* اضافات للسلة */
+    #cart-icon {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: #25d366;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #cart-icon:hover {
+      background-color: #128c5e;
+    }
+
+    #cart-count {
+      background: #ff4136;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 0.9rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    #cart-modal {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      width: 320px;
+      max-height: 400px;
+      background: white;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      padding: 15px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1001;
+      direction: rtl;
+    }
+
+    #cart-modal h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #007bff;
+    }
+
+    #cart-items {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 15px 0;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    #cart-items li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      font-weight: 600;
+    }
+
+    #cart-items li button {
+      background: #ff4136;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      padding: 0 6px;
+      cursor: pointer;
+    }
+
+    #cart-total {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #close-cart {
+      display: block;
+      margin: 0 auto 10px auto;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -25,6 +123,19 @@
     </nav>
   </header>
 
+  <!-- ايقونة السلة -->
+  <div id="cart-icon">
+    🛒 السلة <span id="cart-count">0</span>
+  </div>
+
+  <!-- صندوق السلة -->
+  <div id="cart-modal">
+    <h3>سلة مشترياتك</h3>
+    <ul id="cart-items"></ul>
+    <div id="cart-total"></div>
+    <button id="close-cart">اغلاق السلة</button>
+  </div>
+
   <!-- قسم تواصل معنا -->
   <section id="contact">
     <h2>📞 تواصل ويانه</h2>
@@ -35,5 +146,70 @@
   <footer>
     <p>جميع الحقوق محفوظة &copy; Pro Phone 2025</p>
   </footer>
+
+  <script>
+    // جافاسكريبت للسلة
+    const cartIcon = document.getElementById('cart-icon');
+    const cartModal = document.getElementById('cart-modal');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsList = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartUI() {
+      cartCount.textContent = cart.length;
+      cartItemsList.innerHTML = '';
+      if(cart.length === 0) {
+        cartItemsList.innerHTML = '<li>السلة فارغة</li>';
+        cartTotal.textContent = '';
+        return;
+      }
+      let totalPrice = 0;
+      cart.forEach((item, index) => {
+        totalPrice += item.price;
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${item.name}</span>
+          <span>${item.price.toLocaleString()} د.ع</span>
+          <button onclick="removeFromCart(${index})">×</button>
+        `;
+        cartItemsList.appendChild(li);
+      });
+      cartTotal.textContent = `المجموع: ${totalPrice.toLocaleString()} د.ع`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    cartIcon.addEventListener('click', () => {
+      if(cartModal.style.display === 'block') {
+        cartModal.style.display = 'none';
+      } else {
+        cartModal.style.display = 'block';
+      }
+    });
+
+    closeCartBtn.addEventListener('click', () => {
+      cartModal.style.display = 'none';
+    });
+
+    updateCartUI();
+
+    // دالة تضيف منتج للسلة
+    function addToCart(name, price) {
+      cart.push({name, price});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+      alert(`تم إضافة المنتج "${name}" للسلة`);
+    }
+
+    // تخلي الدالة addToCart متاحة في global window
+    window.addToCart = addToCart;
+  </script>
 </body>
 </html>

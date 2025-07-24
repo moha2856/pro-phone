@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سلة التسوق - Pro Phone</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* تنسيق بسيط لصفحة السلة */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+      color: #333;
+    }
+    header, footer {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    h1 {
+      margin: 10px 0;
+    }
+    #cart {
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    #cart h2 {
+      margin-bottom: 20px;
+      color: #007bff;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+      font-size: 1.1rem;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item .name {
+      flex: 2;
+    }
+    .cart-item .price {
+      flex: 1;
+      text-align: center;
+    }
+    .cart-item .remove-btn {
+      flex: 0.5;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .cart-item .remove-btn:hover {
+      background-color: #a71d2a;
+    }
+    #total {
+      text-align: right;
+      margin-top: 15px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #222;
+    }
+    #empty-btn, #send-whatsapp {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 15px 10px 0 0;
+      transition: background-color 0.3s ease;
+    }
+    #empty-btn:hover, #send-whatsapp:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>سلة التسوق - Pro Phone</h1>
+  </header>
+
+  <section id="cart">
+    <h2>منتجاتك المختارة</h2>
+    <div id="cart-items">
+      <!-- هنا تظهر المنتجات المضافة -->
+    </div>
+    <div id="total">المجموع: 0 دينار</div>
+
+    <button id="empty-btn">افرغ السلة</button>
+    <button id="send-whatsapp">أرسل طلبك عبر واتساب</button>
+  </section>
+
+  <footer>
+    جميع الحقوق محفوظة &copy; Pro Phone 2025
+  </footer>
+
+  <script>
+    // جافاسكريبت تحكم السلة
+
+    // جلب العناصر من الصفحة
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalDisplay = document.getElementById('total');
+    const emptyBtn = document.getElementById('empty-btn');
+    const sendWhatsappBtn = document.getElementById('send-whatsapp');
+
+    // رقم واتساب (بدون + أو 0)
+    const whatsappNumber = '9647723598408';
+
+    // جلب السلة من localStorage أو مصفوفة جديدة
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // دالة تحديث عرض السلة
+    function renderCart() {
+      cartItemsContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p>السلة فارغة حالياً.</p>';
+        totalDisplay.textContent = 'المجموع: 0 دينار';
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        // إنشاء عنصر المنتج
+        const div = document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML = `
+          <div class="name">${item.name}</div>
+          <div class="price">${item.price.toLocaleString()} دينار</div>
+          <button class="remove-btn" data-index="${index}">حذف</button>
+        `;
+        cartItemsContainer.appendChild(div);
+      });
+
+      totalDisplay.textContent = `المجموع: ${total.toLocaleString()} دينار`;
+
+      // ربط حدث حذف المنتج
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = btn.getAttribute('data-index');
+          cart.splice(i, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        });
+      });
+    }
+
+    // زر إفراغ السلة
+    emptyBtn.addEventListener('click', () => {
+      if (confirm('هل أنت متأكد أنك تريد إفراغ السلة؟')) {
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      }
+    });
+
+    // زر إرسال الطلب عبر واتساب
+    sendWhatsappBtn.addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('سلة التسوق فارغة!');
+        return;
+      }
+
+      let message = 'مرحبا، أريد أطلب هذه المنتجات:%0A';
+
+      cart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} - السعر: ${item.price.toLocaleString()} دينار%0A`;
+      });
+
+      message += '%0Aشكراً لكم!';
+
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // عرض السلة عند تحميل الصفحة
+    renderCart();
+  </script>
+</body>
+</html>
